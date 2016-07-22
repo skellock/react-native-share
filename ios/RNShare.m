@@ -37,8 +37,17 @@ RCT_EXPORT_METHOD(open:(NSDictionary *)options :(RCTResponseSenderBlock)callback
                                          UIActivityTypePostToTencentWeibo,
                                          UIActivityTypeAirDrop];*/
     [activityVC setValue:shareSubject forKey:@"subject"];
+
+    if (callback != NULL) {
+        [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            if (completed) {
+                callback(@[activityType]);
+            }
+        }];
+    }
+
     UIViewController *root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    
+
     //if iPhone
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [root presentViewController:activityVC animated:YES completion:nil];
