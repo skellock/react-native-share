@@ -49,7 +49,7 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
     Intent intent = new Intent(android.content.Intent.ACTION_SEND);
     intent.setType("text/plain");
     // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 
     if (hasValidKey("share_subject", options)) {
       intent.putExtra(Intent.EXTRA_SUBJECT, options.getString("share_subject"));
@@ -76,7 +76,7 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
 
     Intent chooser = Intent.createChooser(intent, title);
     // chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    chooser.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    // chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 
     return chooser;
   }
