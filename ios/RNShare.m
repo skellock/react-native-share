@@ -9,10 +9,6 @@
 }
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(test)
-{
-  // Your implementation here
-}
 RCT_EXPORT_METHOD(open:(NSDictionary *)options :(RCTResponseSenderBlock)callback)
 {
     // Your implementation here
@@ -41,7 +37,9 @@ RCT_EXPORT_METHOD(open:(NSDictionary *)options :(RCTResponseSenderBlock)callback
     if (callback != NULL) {
         [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
             if (completed) {
-                callback(@[activityType]);
+                callback(@[[NSNumber numberWithBool:completed], activityType]);
+            } else {
+                callback(@[[NSNumber numberWithBool:completed]]);
             }
         }];
     }
