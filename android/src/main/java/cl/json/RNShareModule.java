@@ -48,8 +48,6 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
   private Intent createShareIntent(ReadableMap options) {
     Intent intent = new Intent(android.content.Intent.ACTION_SEND);
     intent.setType("text/plain");
-    // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 
     if (hasValidKey("share_subject", options)) {
       intent.putExtra(Intent.EXTRA_SUBJECT, options.getString("share_subject"));
@@ -75,8 +73,6 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
     }
 
     Intent chooser = Intent.createChooser(intent, title);
-    // chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 
     return chooser;
   }
@@ -93,13 +89,16 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
 
   @Override
   public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
-    if (requestCode == RC_SHARE && resultCode == Activity.RESULT_OK) {
+    if (requestCode == RC_SHARE) {
+      // unfortunately, there's ACTION_SEND is not something that returns
+      // a consistent return value.  This is by design.  :(  Believe me,
+      // I've tried.
+      //
+      // The only exception I've found is CopyToClipboard :/
+      //
+      // So... everything is a success!
       if (this.callback != null) {
-        String intentData = "";
-        if (intent != null) {
-          intentData = intent.getData().toString();
-        }
-        this.callback.invoke("RequestCode: " + requestCode + "\nResult: " + resultCode + "\nIntentData: " + intentData);
+        this.callback.invoke(true);
       }
     }
   }
