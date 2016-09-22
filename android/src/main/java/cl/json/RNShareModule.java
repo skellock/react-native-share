@@ -88,7 +88,7 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
   }
 
   @Override
-  public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
+  public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
     if (requestCode == RC_SHARE) {
       // unfortunately, there's ACTION_SEND is not something that returns
       // a consistent return value.  This is by design.  :(  Believe me,
