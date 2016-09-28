@@ -87,7 +87,23 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
     return options.hasKey(key) && !options.isNull(key);
   }
 
-  @Override
+  // RN <= 0.32
+  public void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
+    if (requestCode == RC_SHARE) {
+      // unfortunately, there's ACTION_SEND is not something that returns
+      // a consistent return value.  This is by design.  :(  Believe me,
+      // I've tried.
+      //
+      // The only exception I've found is CopyToClipboard :/
+      //
+      // So... everything is a success!
+      if (this.callback != null) {
+        this.callback.invoke(true);
+      }
+    }
+  }
+
+  // RN >= 0.33
   public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
     if (requestCode == RC_SHARE) {
       // unfortunately, there's ACTION_SEND is not something that returns
