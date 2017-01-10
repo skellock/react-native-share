@@ -119,4 +119,7 @@ public class RNShareModule extends ReactContextBaseJavaModule implements Activit
     }
   }
 
+  // Required for RN 0.30+ modules that implement ActivityEventListener
+  public void onNewIntent(Intent intent) { }
+
 }
